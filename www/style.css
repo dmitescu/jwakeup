@@ -1,6 +1,6 @@
 body 
 {
-    background-color: #FFFFCC;
+    background-color: #006B8F;
 }
 
 h1 
@@ -14,15 +14,25 @@ h2
 	margin-left: 20px;
 }
 
+#login
+{
+	background-color: #E6F5FF;
+}
 
 #login_activator
 {
-	background-color: #F3F3F3;
+	background-color: #E6F5FF;
 	position: absolute;
     top: 180px;
     width: 500px;
-    border:3px solid #C2C2A3;
+    /*border:3px solid #C2C2A3;*/
 
+}
+
+
+#collapse1
+{
+	background-color: transparent;
 }
 
 #login_activator h4
@@ -34,7 +44,9 @@ h2
 	background-color: #F3F3F3;
 	position: relative;
     text-align: center;
+    border:3px solid #C2C2A3;
 }
+
 
 #contact_list
 {
@@ -42,6 +54,18 @@ h2
 	top: 10px;
     width: 450px;
     text-align: left;
+}
+
+#logo
+{
+	position: relative;
+    top: 30px;
+}
+
+#clock
+{
+	position: relative;
+    left: 11.5%;
 }
 
 #main 
