@@ -12,8 +12,10 @@ import (
 )
 
 func main(){
+	var mainHTTP wakeupHTTP
 	fmt.Println("Starting service...")
-	fmt.Println("Starting HTTP...")
+	mainHTTP.wHTTPstart()
+	mainHTTP.wHTTPstop()
 	fmt.Println("Starting SIP client...")
 
 	

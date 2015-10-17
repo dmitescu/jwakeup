@@ -6,3 +6,18 @@
 // Zamfir Andrei Vlad <v.zamfir@jacobs-university.de>
 
 package main
+
+import (
+	"fmt"
+)
+
+func (wH wakeupHTTP) wHTTPstart() {
+	fmt.Println("Starting HTTP server...")
+}
+func (wH wakeupHTTP) wHTTPstop() {
+	fmt.Println("Stopping HTTP server...")
+}
+
+
+type wakeupHTTP struct {
+}
