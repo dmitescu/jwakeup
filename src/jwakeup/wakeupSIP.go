@@ -13,28 +13,20 @@ import (
 	"io/ioutil"
 )
 
-func Hindex(w http.ResponseWriter, r *http.Request) {
-	dat, err := ioutil.ReadFile("./www/index.html")
-	if (err!=nil) {
+func (wH wakeupSIP) wSIPstart(port string,
+	nuc chan wUser, ncc chan wCall) {
+	fmt.Println("Starting SIP server...")
 
-	}
-	//check(err)
-	//fmt.Print(string(dat))
-
-	fmt.Fprintf(w, string(dat))
-}
-
-func (wH wakeupSIP) wSIPstart(port string, nChan chan string) {
-	fmt.Println("Starting HTTP server...")
-	wH.toMain = nChan
-	http.HandleFunc("/", Hindex)
-	http.ListenAndServe(port, nil)
+	wH.fromMainU = nuc
+	wH.fromMainC = ncc
+	
 }
 func (wH wakeupSIP) wSIPstop() {
-	fmt.Println("Stopping HTTP server...")
+	fmt.Println("Stopping SIP server...")
 }
 
 type wakeupSIP struct {
-	toMain chan string
+	fromMainU chan wUser
+	fromMainC chan wCall
 	
 }
