@@ -22,6 +22,6 @@ type wCall struct{
 	Calltime time.Time `xml:"calltime"`
 }
 
-type WCallList struct{
+type wCallList struct{
 	WCallList []wCall `xml:"entry"`
 }
