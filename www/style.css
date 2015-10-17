@@ -1,6 +1,9 @@
 body 
 {
+	background-image: url("background2.jpg");
     background-color: #006B8F;
+    background-size: 1330px 851px;
+    background-repeat: no-repeat;
 }
 
 h1 
@@ -25,14 +28,12 @@ h2
 	position: absolute;
     top: 180px;
     width: 500px;
-    /*border:3px solid #C2C2A3;*/
-
 }
 
 
 #collapse1
 {
-	background-color: transparent;
+	background-color: #E6F5FF;
 }
 
 #login_activator h4
@@ -62,10 +63,17 @@ h2
     top: 30px;
 }
 
-#clock
+#jwakeup_logo
 {
 	position: relative;
-    left: 11.5%;
+    left: 80%;
+}
+
+#clock
+{
+	float: center;
+	position: relative;
+	left: 28%;
 }
 
 #main 
