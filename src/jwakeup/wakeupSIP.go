@@ -25,6 +25,18 @@ func (wH wakeupSIP) wSIPstop() {
 	fmt.Println("Stopping SIP server...")
 }
 
+func (wH wakeupSIP) addCALL(){
+
+}
+
+func (wH wakeupSIP) makeCALL(){
+
+}
+
+func (wH wakeupSIP) logUSER(){
+	
+}
+
 type wakeupSIP struct {
 	fromMainU chan wUser
 	fromMainC chan wCall
