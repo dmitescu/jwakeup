@@ -13,7 +13,7 @@ import (
 	"io/ioutil"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func Hindex(w http.ResponseWriter, r *http.Request) {
 	dat, err := ioutil.ReadFile("./www/index.html")
 	if (err!=nil) {
 
@@ -27,7 +27,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func (wH wakeupHTTP) wHTTPstart(port string, nChan chan string) {
 	fmt.Println("Starting HTTP server...")
 	wH.toMain = nChan
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/", Hindex)
 	http.ListenAndServe(port, nil)
 }
 func (wH wakeupHTTP) wHTTPstop() {

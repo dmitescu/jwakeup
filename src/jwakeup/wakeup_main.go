@@ -13,11 +13,14 @@ import (
 
 func main(){
 	var mainHTTP wakeupHTTP
+	var mainSIP wakeupSIP
 	mainC := make(chan string)
-	fmt.Println("Starting service...")
+	
+	fmt.Println("Starting service... (write 'quit' to stop)")
 	mainHTTP.wHTTPstart(":8080", mainC)
+	
+	while()
 	mainHTTP.wHTTPstop()
-	fmt.Println("Starting SIP client...")
 
 	
 }
