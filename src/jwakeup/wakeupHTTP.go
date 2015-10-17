@@ -11,7 +11,19 @@ import (
 	"fmt"
 	"net/http"
 	"io/ioutil"
+	"bytes"
+	"strings"
+	"encoding/json"
 )
+
+type messageLogin struct {
+	Token string `json:"token"`
+	User string `json:"user"`
+}
+
+type messagePhone struct {
+  	Phone string `json:"phone"`
+}
 
 func Hindex(w http.ResponseWriter, r *http.Request) {
 	dat, err := ioutil.ReadFile("../../www/index.html")
@@ -40,6 +52,59 @@ func (wH *wakeupHTTP) wHTTPstart(port string,
 func (wH *wakeupHTTP) wHTTPstop() {
 	fmt.Println("Stopping HTTP server...")
 }
+
+func login() {
+	url := "https://api.jacobs-cs.club/auth/signin"
+
+    var jsonStr = []byte("{\"username\":\"dmitescu\",\"password\":\"!1QqAaZz\"}")
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+    req.Header.Set("Content-Type", "application/json")
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
+
+
+    body, _ := ioutil.ReadAll(resp.Body)
+	
+	
+	dec := json.NewDecoder(strings.NewReader(string(body)))
+	var m messageLogin
+	err2 := dec.Decode(&m)
+	if err2 != nil {
+		panic(err2)
+	}
+	
+	return m.Token
+}
+
+func phone_number() {
+	Token := login()
+	url := "https://api.jacobs-cs.club/user/me?token="+Token
+
+	
+	req, err := client.Get(url)
+	if err != nil {
+        panic(err)
+    }
+
+	body, _ := ioutil.ReadAll(req.Body)
+	defer req.Body.Close()
+
+	dec := json.NewDecoder(strings.NewReader(string(body)))
+
+
+	var m messagePhone
+	err := dec.Decode(&m)
+	if err != nil {
+		panic(err)
+	}
+	return m.Phone
+}
+
 
 type wakeupHTTP struct {
 	toMainU chan wUser
