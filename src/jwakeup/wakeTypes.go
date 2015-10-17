@@ -7,15 +7,8 @@
 
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-func main(){
-	fmt.Println("Starting service...")
-	fmt.Println("Starting HTTP...")
-	tralala()
-	fmt.Println("Starting SIP client...")
-
-	
+func tralala(){
+	fmt.Println("Tralala")
 }
