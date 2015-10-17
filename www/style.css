@@ -2,7 +2,7 @@ body
 {
 	background-image: url("background2.jpg");
     background-color: #006B8F;
-    background-size: 1330px 851px;
+    background-size: 110% auto;
     background-repeat: no-repeat;
 }
 
