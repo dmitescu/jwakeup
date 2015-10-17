@@ -14,7 +14,7 @@ import (
 )
 
 func Hindex(w http.ResponseWriter, r *http.Request) {
-	dat, err := ioutil.ReadFile("./www/index.html")
+	dat, err := ioutil.ReadFile("../../www/index.html")
 	if (err!=nil) {
 
 	}

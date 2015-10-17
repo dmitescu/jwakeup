@@ -9,17 +9,21 @@ package main
 
 import (
 	"fmt"
+	//"bufio"
+	//"os"
 )
 
 func main(){
-	var mainHTTP wakeupHTTP
-	var mainSIP wakeupSIP
-	mainC := make(chan string)
+	//reader := bufio.NewReader(os.Stdin)
+	//var keyIn string = "hmm"
 	
+	var mainHTTP wakeupHTTP
+	//var mainSIP wakeupSIP
+	mainC := make(chan string)
+
 	fmt.Println("Starting service... (write 'quit' to stop)")
 	mainHTTP.wHTTPstart(":8080", mainC)
 	
-	while()
 	mainHTTP.wHTTPstop()
 
 	
