@@ -15,13 +15,13 @@ import (
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	dat, err := ioutil.ReadFile("/../../www/index.html")
-    if (err!=nil) {
-
-    }
-    //check(err)
-    //fmt.Print(string(dat))
-
-    fmt.Fprintf(w, string(dat))
+	if (err!=nil) {
+		
+	}
+	//check(err)
+	//fmt.Print(string(dat))
+	
+	fmt.Fprintf(w, string(dat))
 }
 
 func (wH wakeupHTTP) wHTTPstart(port string, nChan chan) {
