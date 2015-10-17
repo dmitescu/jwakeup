@@ -12,10 +12,16 @@ import (
 )
 
 type wUser struct{
-	username, token string
+	username string `xml:"username"`
+	token string `xml:"token"`
 }
 
 type wCall struct{
-	phonenr string
-	calltime time.Time
+	Callid int `xml:"callid"`
+	Phonenr string `xml:"phonenr"`
+	Calltime time.Time `xml:"calltime"`
+}
+
+type WCallList struct{
+	WCallList []wCall `xml:"entry"`
 }

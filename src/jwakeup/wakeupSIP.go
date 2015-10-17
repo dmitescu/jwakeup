@@ -8,8 +8,11 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	//"time"
+	"io/ioutil"
+	//"os"
 )
 
 func (wH wakeupSIP) wSIPstart(port string,
@@ -18,17 +21,33 @@ func (wH wakeupSIP) wSIPstart(port string,
 
 	wH.fromMainU = nuc
 	wH.fromMainC = ncc
-	
+
+	tempin, _ := ioutil.ReadFile("../../userbase/wakelist.xml")
+	err := xml.Unmarshal(tempin, &wH.callList)
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+	} else {
+		for _, sCall := range wH.callList.WCallList {
+			fmt.Println(sCall.Callid)
+		}
+	}
 }
 
 func (wH wakeupSIP) wSIPstop() {
 	fmt.Println("Stopping SIP server...")
+	//tempout, _ := xml.MarshalIndent(wH.callList, "  ", "    ")
+	//ioutil.WriteFile("../../userbase/wakelist.xml", tempout, 0644)
 }
 
 func (wH wakeupSIP) addCALL(nCall wCall){
-	wH.callList = append(wH.callList, nCall)
-	fmt.Println("Added call to ", nCall,
-		"at", nCall.calltime)
+	wH.callList.wCallList = append(wH.callList.wCallList, nCall)
+	fmt.Println("Added call to ", nCall.Phonenr,
+		"at", nCall.Calltime)
+
+	tempout, _ := xml.MarshalIndent(wH.callList, "  ", "    ")
+
+	ioutil.WriteFile("../../userbase/wakelist.xml", tempout, 0644)
 }
 
 func (wH wakeupSIP) makeCALL(){
@@ -52,5 +71,5 @@ type wakeupSIP struct {
 	fromMainU chan wUser
 	fromMainC chan wCall
 	loggedList []wUser
-	callList []wCall
+	callList wCallList
 }
