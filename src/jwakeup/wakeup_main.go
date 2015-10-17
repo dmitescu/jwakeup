@@ -19,10 +19,12 @@ func main(){
 	
 	var mainHTTP wakeupHTTP
 	//var mainSIP wakeupSIP
-	mainC := make(chan string)
 
+	userC := make(chan wUser)
+	callC := make(chan wCall)
+	
 	fmt.Println("Starting service... (write 'quit' to stop)")
-	mainHTTP.wHTTPstart(":8080", mainC)
+	mainHTTP.wHTTPstart(":8080", userC, callC)
 	
 	mainHTTP.wHTTPstop()
 

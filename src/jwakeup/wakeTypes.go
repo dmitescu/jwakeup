@@ -7,8 +7,15 @@
 
 package main
 
-import "fmt"
+import (
+	"time"
+)
 
-func tralala(){
-	fmt.Println("Tralala")
+type wUser struct{
+	username, token string
+}
+
+type wCall struct{
+	phonenr string
+	calltime time.Time
 }
