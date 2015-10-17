@@ -25,3 +25,18 @@ type wCall struct{
 type wCallList struct{
 	WCallList []wCall `xml:"entry"`
 }
+
+//Packet types
+
+type SIPpacket{
+	UserId string
+	ourIp int
+	Callid int
+
+}
+
+type SDPpacket{
+	userId string
+	ourIp int
+
+}
