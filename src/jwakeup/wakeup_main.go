@@ -14,7 +14,6 @@ import (
 func main(){
 	fmt.Println("Starting service...")
 	fmt.Println("Starting HTTP...")
-	tralala()
 	fmt.Println("Starting SIP client...")
 
 	
