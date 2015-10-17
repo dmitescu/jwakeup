@@ -24,22 +24,25 @@ func Hindex(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(dat))
 }
 
-func (wH wakeupHTTP) wHTTPstart(port string,
-	nuc chan wUser, ncc chan wCall) {
+func (wH *wakeupHTTP) wHTTPstart(port string,
+	nuc chan wUser, ncc chan wCall nmessC chan string) {
 	
 	fmt.Println("Starting HTTP server...")
 	wH.toMainU = nuc
 	wH.toMainC = ncc
+	wH.messC = nmessC
+	
 	http.HandleFunc("/", Hindex)
 	http.ListenAndServe(port, nil)
 
 }
 
-func (wH wakeupHTTP) wHTTPstop() {
+func (wH *wakeupHTTP) wHTTPstop() {
 	fmt.Println("Stopping HTTP server...")
 }
 
 type wakeupHTTP struct {
 	toMainU chan wUser
 	toMainC chan wCall
+	messC chan string
 }
