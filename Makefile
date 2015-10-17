@@ -1,2 +1,4 @@
-
-clean:	rm -r *~
+init:
+	mv src/jwakeup/jwakeup .
+clean:
+	rm -r *~
