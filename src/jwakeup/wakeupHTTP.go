@@ -11,13 +11,10 @@ import (
 	"fmt"
 	"net/http"
 	"io/ioutil"
-<<<<<<< HEAD
 	. "sync"
-=======
 	"bytes"
 	"strings"
 	"encoding/json"
->>>>>>> ad243c0bf23ae991bba95652c87a6796147a826f
 )
 
 type messageLogin struct {
