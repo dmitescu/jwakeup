@@ -60,7 +60,7 @@ func (wH *wakeupHTTP) wHTTPstop() {
 	fmt.Println("Stopping HTTP server...")
 }
 
-func login() {
+func login() string{
 	url := "https://api.jacobs-cs.club/auth/signin"
 
     var jsonStr = []byte("{\"username\":\"dmitescu\",\"password\":\"!1QqAaZz\"}")
@@ -88,11 +88,11 @@ func login() {
 	return m.Token
 }
 
-func phone_number() {
+func phone_number() string{
 	Token := login()
 	url := "https://api.jacobs-cs.club/user/me?token="+Token
 
-	
+	client := &http.Client{}
 	req, err := client.Get(url)
 	if err != nil {
         panic(err)
@@ -105,9 +105,9 @@ func phone_number() {
 
 
 	var m messagePhone
-	err := dec.Decode(&m)
-	if err != nil {
-		panic(err)
+	err2 := dec.Decode(&m)
+	if err2 != nil {
+		panic(err2)
 	}
 	return m.Phone
 }
