@@ -28,14 +28,14 @@ type wCallList struct{
 
 //Packet types
 
-type SIPpacket{
+type SIPpacket struct {
 	UserId string
 	ourIp int
 	Callid int
 
 }
 
-type SDPpacket{
+type SDPpacket struct{
 	userId string
 	ourIp int
 

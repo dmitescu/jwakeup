@@ -19,7 +19,7 @@ func (wS *wakeupSIP) wSIPstart(port string, dest string,
 	num *Mutex, ncm *Mutex, nmessM *Mutex) {
 	fmt.Println("Starting SIP server...")
 
-	cMess := ""
+	//cMess := ""
 	
 	wS.messC = nmessC
 	wS.fromMainU = nuc
@@ -38,9 +38,9 @@ func (wS *wakeupSIP) wSIPstart(port string, dest string,
 		fmt.Println("Error: ", err)
 	}
 
-	for cMess != "terminate" {
+	//for cMess != "terminate" {
 
-	}
+	//}
 	
 }
 
