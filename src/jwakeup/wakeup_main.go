@@ -10,6 +10,7 @@ package main
 import (
 	"fmt"
 	"time"
+	. "sync"
 	//"bufio"
 	//"os"
 )
@@ -17,21 +18,27 @@ import (
 func main(){
 	//reader := bufio.NewReader(os.Stdin)
 	//var keyIn string = "hmm"
+
+	fmt.Println("Starting JWakeup...")
 	
 	var mainHTTP wakeupHTTP
 	var mainSIP wakeupSIP
-	var uTest wUser
-	var cTest wCall
 
 	userC := make(chan wUser)
 	callC := make(chan wCall)
 	messC := make(chan string)
+
+	userM := new(Mutex)
+	callM := new(Mutex)
+	messM := new(Mutex)
 	
-	go mainHTTP.wHTTPstart(":8080", userC, callC, messC)
-	go mainSIP.wSIPstart(":5051", userC, callC, messC)
-	
+	go mainHTTP.wHTTPstart(":8080", userC, callC, messC,
+		userM, callM, messM)
 	time.Sleep(time.Second * 2)
-	time.Sleep(time.Second * 3)
+	
+	go mainSIP.wSIPstart(":5051", "127.0.0.1", userC, callC, messC,
+		userM, callM, messM)
+	time.Sleep(time.Second * 2)
 
 	mainHTTP.wHTTPstop()
 	mainSIP.wSIPstop()

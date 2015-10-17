@@ -11,81 +11,92 @@ import (
 	"fmt"
 	"io/ioutil"
 	"encoding/xml"
+	. "sync"
 )
 
-func (wH *wakeupSIP) wSIPstart(port string,
-	nuc chan wUser, ncc chan wCall, nmessC chan string) {
+func (wS *wakeupSIP) wSIPstart(port string, dest string,
+	nuc chan wUser, ncc chan wCall, nmessC chan string,
+	num *Mutex, ncm *Mutex, nmessM *Mutex) {
 	fmt.Println("Starting SIP server...")
 
-	cMess = ""
+	cMess := ""
 	
-	wH.messC = nmessC
-	wH.fromMainU = nuc
-	wH.fromMainC = ncc
+	wS.messC = nmessC
+	wS.fromMainU = nuc
+	wS.fromMainC = ncc
+
+	wS.messM = nmessM
+	wS.mutexMainU = num
+	wS.mutexMainC = ncm
 
 	tempin, _ := ioutil.ReadFile("../../userbase/wakelist.xml")
 	var listin wCallList
 	err := xml.Unmarshal(tempin, &listin)
-	wH.callList = listin.WCallList
+	wS.callList = listin.WCallList
 
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
 
 	for cMess != "terminate" {
-		
+
 	}
 	
 }
 
-func (wH *wakeupSIP) wSIPstop() {
+func (wS *wakeupSIP) wSIPstop() {
 	fmt.Println("Stopping SIP server...")
 
 }
 
-func (wH *wakeupSIP) addCALL(nCall wCall){
-	wH.callList = append(wH.callList, nCall)
+func (wS *wakeupSIP) addCALL(nCall wCall){
+	wS.callList = append(wS.callList, nCall)
 	fmt.Println("Added call to", nCall.Phonenr,
 		"at", nCall.Calltime)
 	
 	var listout wCallList
-	listout.WCallList = wH.callList
+	listout.WCallList = wS.callList
 	tempout, _ := xml.MarshalIndent(listout, "  ", "    ")
 	ioutil.WriteFile("../../userbase/wakelist.xml", tempout, 0644)
 }
 
-func (wH *wakeupSIP) makeCALL(){
+func (wS *wakeupSIP) makeCALL(){
 
 }
 
-func (wH *wakeupSIP) logUSER(nUser wUser){
-	wH.loggedList = append(wH.loggedList, nUser)
+func (wS *wakeupSIP) logUSER(nUser wUser){
+	wS.loggedList = append(wS.loggedList, nUser)
 	fmt.Println("User", nUser.username, "logged in!")
 }
 
-func (wH *wakeupSIP) logoutUSER(nUser wUser) bool{
-	statU, indexU := checkUSER(nUser.username)
+func (wS *wakeupSIP) checkUSER(sUser string) (bool, int){
+	for iUser, dUser := range wS.loggedList{
+		if(dUser.username == sUser) {
+			return true, iUser
+		}
+	}
+	return false, 0
+}
+
+func (wS *wakeupSIP) logoutUSER(nUser wUser) bool{
+	statU, indexU := wS.checkUSER(nUser.username)
 	if statU == false {
 		return false
 	} else {
-		wH.callList = append(wH.callList[:indexU],
-			callList[indexU+1:])
+		wS.callList = append(wS.callList[:indexU],
+			wS.callList[(indexU+1):]...)
 		return true
 	}
 }
-
-func (wH *wakeupSIP) checkUSER(sUser string) (bool, int){
-	for iUser, dUser := range wH.loggedList{
-		if(dUser.username == sUser) {
-			return (true, iUser)
-		}
-	}
-}
-
 type wakeupSIP struct {
 	fromMainU chan wUser
 	fromMainC chan wCall
 	messC chan string
+
+	mutexMainU *Mutex
+	mutexMainC *Mutex
+	messM *Mutex
+	
 	loggedList []wUser
 	callList []wCall
 }

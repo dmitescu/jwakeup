@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"io/ioutil"
+	. "sync"
 )
 
 func Hindex(w http.ResponseWriter, r *http.Request) {
@@ -25,12 +26,18 @@ func Hindex(w http.ResponseWriter, r *http.Request) {
 }
 
 func (wH *wakeupHTTP) wHTTPstart(port string,
-	nuc chan wUser, ncc chan wCall nmessC chan string) {
+	nuc chan wUser, ncc chan wCall, nmessC chan string,
+	num *Mutex, ncm *Mutex, nmessM *Mutex) {
 	
 	fmt.Println("Starting HTTP server...")
+
 	wH.toMainU = nuc
 	wH.toMainC = ncc
 	wH.messC = nmessC
+
+	wH.mutexMainU = num
+	wH.mutexMainC = ncm
+	wH.messM = nmessM
 	
 	http.HandleFunc("/", Hindex)
 	http.ListenAndServe(port, nil)
@@ -45,4 +52,8 @@ type wakeupHTTP struct {
 	toMainU chan wUser
 	toMainC chan wCall
 	messC chan string
+
+	mutexMainU *Mutex
+	mutexMainC *Mutex
+	messM *Mutex
 }
