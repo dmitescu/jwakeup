@@ -9,10 +9,26 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+    "io/ioutil"
 )
 
-func (wH wakeupHTTP) wHTTPstart() {
+func handler(w http.ResponseWriter, r *http.Request) {
+	dat, err := ioutil.ReadFile("/../../www/index.html")
+    if (err!=nil) {
+
+    }
+    //check(err)
+    //fmt.Print(string(dat))
+
+    fmt.Fprintf(w, string(dat))
+}
+
+func (wH wakeupHTTP) wHTTPstart(port string, nChan chan) {
 	fmt.Println("Starting HTTP server...")
+	toMain = nChan
+	http.HandleFunc("/", handler)
+	http.ListenAndServe(port, nil)
 }
 func (wH wakeupHTTP) wHTTPstop() {
 	fmt.Println("Stopping HTTP server...")
@@ -20,4 +36,5 @@ func (wH wakeupHTTP) wHTTPstop() {
 
 
 type wakeupHTTP struct {
+	var toMain *chan
 }
