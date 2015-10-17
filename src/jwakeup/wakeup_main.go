@@ -13,7 +13,7 @@ import (
 
 func main(){
 	var mainHTTP wakeupHTTP
-	var mainC chan
+	mainC := make(chan string)
 	fmt.Println("Starting service...")
 	mainHTTP.wHTTPstart(":8080", mainC)
 	mainHTTP.wHTTPstop()

@@ -13,28 +13,28 @@ import (
 	"io/ioutil"
 )
 
-type wakeupHTTP struct {
-	var toMain *chan
-}
-
-
 func handler(w http.ResponseWriter, r *http.Request) {
-	dat, err := ioutil.ReadFile("/../../www/index.html")
+	dat, err := ioutil.ReadFile("./www/index.html")
 	if (err!=nil) {
-		
+
 	}
 	//check(err)
 	//fmt.Print(string(dat))
-	
+
 	fmt.Fprintf(w, string(dat))
 }
 
-func (wH wakeupHTTP) wHTTPstart(port string, nChan chan) {
+func (wH wakeupHTTP) wHTTPstart(port string, nChan chan string) {
 	fmt.Println("Starting HTTP server...")
-	toMain = nChan
+	wH.toMain = nChan
 	http.HandleFunc("/", handler)
 	http.ListenAndServe(port, nil)
 }
 func (wH wakeupHTTP) wHTTPstop() {
 	fmt.Println("Stopping HTTP server...")
+}
+
+type wakeupHTTP struct {
+	toMain chan string
+	
 }
