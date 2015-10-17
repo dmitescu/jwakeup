@@ -13,6 +13,11 @@ import (
 	"io/ioutil"
 )
 
+type wakeupHTTP struct {
+	var toMain *chan
+}
+
+
 func handler(w http.ResponseWriter, r *http.Request) {
 	dat, err := ioutil.ReadFile("/../../www/index.html")
 	if (err!=nil) {
@@ -32,9 +37,4 @@ func (wH wakeupHTTP) wHTTPstart(port string, nChan chan) {
 }
 func (wH wakeupHTTP) wHTTPstop() {
 	fmt.Println("Stopping HTTP server...")
-}
-
-
-type wakeupHTTP struct {
-	var toMain *chan
 }
