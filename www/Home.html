@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>JWakeUp</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div id="main">
+
+        <div id="sidebar">
+            <ul class="sidebar_list">
+                    <h2 id="sidebar_title">
+                        JWakeUp
+                    </h2>
+                <li>
+                    <a id="f1" href="#">Add Call</a>
+                </li>
+                <li>
+                    <a id="f2" href="#">Pending Calls</a>
+                </li>
+                <li>
+                    <a id="f3" href="#">Contact</a>
+                </li>
+                 <li>
+                    <a href="index2.html?">Log out</a>
+                </li>
+            </ul>
+        </div>
+
+  <script>
+    function showElement(a) {
+      var elements = [document.getElementById("_NewCall"), document.getElementById("_Pending"), document.getElementById("_Contact")];
+      var l = elements.length;
+      var elem;
+      for (i = 0; i < l; i++) {
+          elem = elements[i];
+          elem.style.display = "none";
+      }
+      elem = elements[a];
+      elem.style.display = "block";
+    }
+
+    document.getElementById('f1').onclick = function () {
+        showElement(0);
+    };
+    document.getElementById('f2').onclick = function() {
+        showElement(1);
+    };
+    document.getElementById('f3').onclick = function() {
+        showElement(2);
+    };
+
+    function getTime(){
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+
+      if(dd<10) {
+          dd='0'+dd
+      } 
+
+      if(mm<10) {
+          mm='0'+mm
+      } 
+
+      today = mm+'/'+dd+'/'+yyyy;
+      return today;
+    }
+  </script>
+
+        <div id="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                      <div id="_NewCall" class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                              <div id="contact" class="well well-sm">
+                                <h1> Add Call </h1>
+                                <form role="form">
+                                  <div class="form-group">
+                                    <label for="date">Date:</label>
+                                    <input type="date" class="form-control" id="date">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="time">Time:</label>
+                                    <input type="time" class="form-control" id="time">
+                                  </div>
+                                  <button type="submit" class="btn btn-default">Call</button>
+                                </form>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div id="_Pending" style="display: none;" class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                              <div id="contact" class="well well-sm">
+                                <h1> Pending Calls </h1>
+                                <ul id="contact_list" class="sidebar_list">
+                                  <li>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+
+
+                      <div id="_Contact" style="display: none;" class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                              <div id="contact" class="well well-sm">
+                                <h1> Contact </h1>
+                                <ul id="contact_list" class="sidebar_list">
+                                  <li>
+                                      George Mitescu
+                                      <ul>
+                                        <li>
+                                          d.mitescu@jacobs-university.de
+                                        </li>
+                                     </ul>
+                                  </li>
+                                  <li>
+                                      Vlad Frasineanu
+                                      <ul>
+                                        <li>
+                                          v.frasineanu@jacobs-university.de
+                                        </li>
+                                     </ul>
+                                  </li>
+                                  <li>
+                                      Andrei Nicolae
+                                      <ul>
+                                        <li>
+                                          a.nicolae@jacobs-university.de
+                                        </li>
+                                     </ul>
+                                  </li>
+                                  <li>
+                                      Vlad Zamfir  
+                                      <ul>
+                                        <li>
+                                          v.zamfir@jacobs-university.de
+                                        </li>
+                                     </ul>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+</body>
+</html>
+
