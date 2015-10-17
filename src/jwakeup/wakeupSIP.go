@@ -55,10 +55,21 @@ func (wH *wakeupSIP) logUSER(nUser wUser){
 	fmt.Println("User", nUser.username, "logged in!")
 }
 
-func (wH *wakeupSIP) checkUSER(sUser string){
-	for _, dUser := range wH.loggedList{
+func (wH *wakeupSIP) logoutUSER(nUser wUser) bool{
+	statU, indexU := checkUSER(nUser.username)
+	if statU == false {
+		return false
+	} else {
+		wH.callList = append(wH.callList[:indexU],
+			callList[indexU+1:])
+		return true
+	}
+}
+
+func (wH *wakeupSIP) checkUSER(sUser string) (bool, int){
+	for iUser, dUser := range wH.loggedList{
 		if(dUser.username == sUser) {
-				//Transmis mesaj gulie
+			return (true, iUser)
 		}
 	}
 }
