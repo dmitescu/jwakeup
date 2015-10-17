@@ -14,9 +14,12 @@ import (
 )
 
 func (wH *wakeupSIP) wSIPstart(port string,
-	nuc chan wUser, ncc chan wCall) {
+	nuc chan wUser, ncc chan wCall, nmessC chan string) {
 	fmt.Println("Starting SIP server...")
 
+	cMess = ""
+	
+	wH.messC = nmessC
 	wH.fromMainU = nuc
 	wH.fromMainC = ncc
 
@@ -27,7 +30,12 @@ func (wH *wakeupSIP) wSIPstart(port string,
 
 	if err != nil {
 		fmt.Println("Error: ", err)
-	} 
+	}
+
+	for cMess != "terminate" {
+		
+	}
+	
 }
 
 func (wH *wakeupSIP) wSIPstop() {
@@ -77,6 +85,7 @@ func (wH *wakeupSIP) checkUSER(sUser string) (bool, int){
 type wakeupSIP struct {
 	fromMainU chan wUser
 	fromMainC chan wCall
+	messC chan string
 	loggedList []wUser
 	callList []wCall
 }

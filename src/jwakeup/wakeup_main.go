@@ -25,9 +25,10 @@ func main(){
 
 	userC := make(chan wUser)
 	callC := make(chan wCall)
+	messC := make(chan string)
 	
-	go mainHTTP.wHTTPstart(":8080", userC, callC)
-	go mainSIP.wSIPstart(":5051", userC, callC)
+	go mainHTTP.wHTTPstart(":8080", userC, callC, messC)
+	go mainSIP.wSIPstart(":5051", userC, callC, messC)
 	
 	time.Sleep(time.Second * 2)
 	time.Sleep(time.Second * 3)
