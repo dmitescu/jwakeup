@@ -20,4 +20,5 @@ func (wH wakeupHTTP) wHTTPstop() {
 
 
 type wakeupHTTP struct {
+	var toMain *chan
 }
