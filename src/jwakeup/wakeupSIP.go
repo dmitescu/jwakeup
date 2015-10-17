@@ -9,8 +9,7 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-	"io/ioutil"
+	//"time"
 )
 
 func (wH wakeupSIP) wSIPstart(port string,
@@ -21,24 +20,37 @@ func (wH wakeupSIP) wSIPstart(port string,
 	wH.fromMainC = ncc
 	
 }
+
 func (wH wakeupSIP) wSIPstop() {
 	fmt.Println("Stopping SIP server...")
 }
 
-func (wH wakeupSIP) addCALL(){
-
+func (wH wakeupSIP) addCALL(nCall wCall){
+	wH.callList = append(wH.callList, nCall)
+	fmt.Println("Added call to ", nCall,
+		"at", nCall.calltime)
 }
 
 func (wH wakeupSIP) makeCALL(){
 
 }
 
-func (wH wakeupSIP) logUSER(){
-	
+func (wH wakeupSIP) logUSER(nUser wUser){
+	wH.loggedList = append(wH.loggedList, nUser)
+	fmt.Println("User", nUser.username, "logged in!")
+}
+
+func (wH wakeupSIP) checkUSER(sUser string){
+	for _, dUser := range wH.loggedList{
+		if(dUser.username == sUser) {
+				//Transmis mesaj gulie
+		}
+	}
 }
 
 type wakeupSIP struct {
 	fromMainU chan wUser
 	fromMainC chan wCall
-	
+	loggedList []wUser
+	callList []wCall
 }

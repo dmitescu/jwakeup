@@ -9,6 +9,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 	//"bufio"
 	//"os"
 )
@@ -18,15 +19,23 @@ func main(){
 	//var keyIn string = "hmm"
 	
 	var mainHTTP wakeupHTTP
-	//var mainSIP wakeupSIP
-
+	var mainSIP wakeupSIP
+	var uTest wUser
+	uTest.username = "Dinamo"
+	uTest.token = "lalala"
+	
 	userC := make(chan wUser)
 	callC := make(chan wCall)
 	
 	fmt.Println("Starting service... (write 'quit' to stop)")
-	mainHTTP.wHTTPstart(":8080", userC, callC)
+	go mainHTTP.wHTTPstart(":8080", userC, callC)
+	go mainSIP.wSIPstart(":5051", userC, callC)
 	
-	mainHTTP.wHTTPstop()
+	time.Sleep(time.Second * 2)
+	mainSIP.logUSER(uTest)
+	time.Sleep(time.Second * 3)
 
+	mainHTTP.wHTTPstop()
+	mainSIP.wSIPstop()
 	
 }
