@@ -29,7 +29,7 @@
                     <a id="f3" href="#">Contact</a>
                 </li>
                  <li>
-                    <a href="index2.html?">Log out</a>
+                    <a href="index.html?">Log out</a>
                 </li>
             </ul>
         </div>
@@ -75,6 +75,18 @@
       return today;
     }
   </script>
+  <script>
+    function addCall(time, date){
+      document.write(1);
+      var table = document.getElementById('Call_Table')
+      var row = document.createElement('TR');
+      var cell = document.createElement('TD');   
+      cell.innerText = time + "/" date;
+      myDate.setDate(myDate.getDate() + 1)
+      row.appendChild(cell);
+      table.tBodies[0].appendChild(row);
+    }
+  </script>
 
 
         <div id="content">
@@ -108,10 +120,17 @@
                             <div class="col-lg-12">
                               <div id="contact" class="well well-sm">
                                 <h1> Pending Calls </h1>
-                                <ul id="contact_list" class="sidebar_list">
-                                  <li>
-                                  </li>
-                                </ul>
+                                <br>
+                                <table id="Call_Table" class="table table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th>Time</th>
+                                      <th>Date</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  </tbody>
+                                </table>
                               </div>
                             </div>
                         </div>
