@@ -29,14 +29,28 @@ type wCallList struct{
 //Packet types
 
 type SIPpacket struct {
+	OurIp string
+	branch string
 	UserId string
-	ourIp int
-	Callid int
+	OurId string
+	tag string
+	Callid string
+	CbqmethodName string
+	Cbqint string
+	ContentType string
+	ContentLength string
 
 }
 
 type SDPpacket struct{
+	ProtocolVersionNumber string
 	userId string
-	ourIp int
+	ourIp string
+	SesionName string
+	time string
+	mediaName string
+	transportAdress string
+	MediaAttribute lines // o or more media attribute linesoveriding the Sesion attribute lines rtpmap: 0
+
 
 }
