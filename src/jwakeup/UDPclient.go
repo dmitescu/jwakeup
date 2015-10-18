@@ -9,6 +9,7 @@ package main
 
 import (
 	"fmt"
+	"bufio"
 	. "net"
 )
 
@@ -29,12 +30,23 @@ func (uO *UDPOutput) send(datain []byte) error {
 	} else {
 		fmt.Fprintf(uO.conn, string(datain))
 	}
-	uO.used = uO.used-1
-	if uO.used == 0 {
-		uO.connected = false
-		uO.conn = nil
-	}
+	//uO.used = uO.used-1
+	//if uO.used == 0 {
+	//	uO.connected = false
+	//	uO.conn = nil
+	//}
 	return nil
+}
+
+func (uO *UDPOutput) recv() []byte {
+	if uO.connected == true {
+		uO.used = uO.used+1
+		rout, _ := bufio.NewReader(uO.conn).ReadBytes('\n')
+		uO.used = uO.used-1
+		return rout
+	}
+	var rr []byte
+	return rr
 }
 
 func (uO *UDPOutput) init(portno string, dest string){

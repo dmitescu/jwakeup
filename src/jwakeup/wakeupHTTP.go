@@ -14,7 +14,7 @@ import (
 	"bytes"
 	"strings"
 	"encoding/json"
-	"time"
+	"strconv"
 )
 
 type messageLogin struct {
@@ -34,9 +34,8 @@ func (wH *wakeupHTTP) Hindex(w http.ResponseWriter, r *http.Request) {
 func (wH *wakeupHTTP) Hlogo(w http.ResponseWriter, r *http.Request){
 	dat, _ := ioutil.ReadFile("../../www/logo.png")
 	w.Header().Set("Content-Type", "image/png")
-    w.Header().Set("Content-Length", strconv.Itoa(len(dat.Bytes())))
-	w.Write(dat.Bytes())
-	fmt.Fprintf(w, string(dat))
+	w.Header().Set("Content-Length", strconv.Itoa(len(dat)))
+	w.Write(dat)
 }
 
 func (wH *wakeupHTTP) Hlogin(w http.ResponseWriter, r *http.Request){
@@ -56,13 +55,13 @@ func (wH *wakeupHTTP) Hlogin(w http.ResponseWriter, r *http.Request){
 		wH.messC <- "adduser"
 		wH.toMainU <- newuser
 
-		var newCookie http.Cookie
-		newCookie.Name = "logtoken"
-		newCookie.Value = newtoken
-		newCookie.Expires = time.Now().Add(time.Minute*10)
+		//var newCookie http.Cookie
+		//newCookie.Name = "logtoken"
+		//newCookie.Value = newtoken
+		//newCookie.Expires = time.Now().Add(time.Minute*10)
 		//newCookie.Raw = ""
 		//newCookie.Unparsed = {""}
-		http.SetCookie(w, &newCookie)
+		//http.SetCookie(w, &newCookie)
 
 		fmt.Fprintf(w, "<html><body><script>window.location.assign(\"/home\")</script></body></html>")
 	}
@@ -70,14 +69,14 @@ func (wH *wakeupHTTP) Hlogin(w http.ResponseWriter, r *http.Request){
 }
 
 func (wH *wakeupHTTP) Hhome(w http.ResponseWriter, r *http.Request){
-	cookie, err := r.Cookie("logtoken")
-	if (err != nil){
-		fmt.Fprintf(w,"<html><body><script>window.location.assign(\"/\")</script></body></html>")
-	} else {
-		fmt.Println(cookie.Value)
+	//cookie, err := r.Cookie("logtoken")
+	//if (err != nil){
+	//	fmt.Fprintf(w,"<html><body><script>window.location.assign(\"/\")</script></body></html>")
+	//} else {
+	//	fmt.Println(cookie.Value)
 		dat, _ := ioutil.ReadFile("../../www/Home.html")
 		fmt.Fprintf(w, string(dat))
-	}
+	//}
 }
 
 func (wH *wakeupHTTP) wHTTPstart(port string,
