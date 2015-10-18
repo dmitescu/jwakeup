@@ -17,6 +17,10 @@ h2
 	margin-left: 20px;
 }
 
+th {
+    text-align: center;
+}
+
 #login
 {
 	background-color: #D7D7D8;
