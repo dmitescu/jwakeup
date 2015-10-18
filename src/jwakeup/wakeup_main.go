@@ -10,9 +10,6 @@ package main
 import (
 	"fmt"
 	"time"
-	. "sync"
-	//"bufio"
-	//"os"
 )
 
 func main(){
@@ -28,19 +25,12 @@ func main(){
 	callC := make(chan wCall)
 	messC := make(chan string)
 
-	userM := new(Mutex)
-	callM := new(Mutex)
-	messM := new(Mutex)
 	
-	go mainHTTP.wHTTPstart(":8080", userC, callC, messC,
-		userM, callM, messM)
+	go mainHTTP.wHTTPstart(":8080", userC, callC, messC)
 	time.Sleep(time.Second * 2)
 	
-	go mainSIP.wSIPstart(":5051", "127.0.0.1", userC, callC, messC,
-		userM, callM, messM)
-	time.Sleep(time.Second * 2)
-
+	go mainSIP.wSIPstart(":5051", "127.0.0.1", userC, callC, messC)
+	time.Sleep(time.Second * 15)
 	mainHTTP.wHTTPstop()
-	mainSIP.wSIPstop()
 	
 }
