@@ -19,12 +19,12 @@ h2
 
 #login
 {
-	background-color: #E6F5FF;
+	background-color: #D7D7D8;
 }
 
 #login_activator
 {
-	background-color: #E6F5FF;
+	background-color: #D7D7D8;
 	position: absolute;
     top: 180px;
     width: 500px;
@@ -33,7 +33,7 @@ h2
 
 #collapse1
 {
-	background-color: #E6F5FF;
+	background-color: #D7D7D8;
 }
 
 #login_activator h4
@@ -42,7 +42,7 @@ h2
 }
 #contact
 {
-	background-color: #F3F3F3;
+	background-color: #D7D7D8;
 	position: relative;
     text-align: center;
     border:3px solid #C2C2A3;
@@ -89,7 +89,7 @@ h2
     width: 250px;
     margin-left: -250px;
     overflow-y: auto;
-    background: #000066;
+    background: #25282A;
 }
 
 #content 
