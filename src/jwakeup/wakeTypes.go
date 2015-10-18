@@ -9,7 +9,6 @@ package main
 
 import (
 	"time"
-	"bytes"
 )
 
 type wUser struct{
@@ -45,13 +44,12 @@ type SIPpacket struct {
 	transport string
 	local_ip string
 	local_port string
-
+	peer_tag_param string
+	
 }
 
 type SDPpacket struct{
-	ProtocolVersionNumber string
-	userId string
-	ourIp string
+	local_ip string
 	SesionName string
 	time string
 	mediaName string
@@ -62,53 +60,22 @@ type SDPpacket struct{
 }
 
 func (SIPp *SIPpacket) SipToString() []byte{
-
-		var buffer bytes.Buffer
-		
-		if(SIPp.Type=Invite){
-		packet := "Invite sip:["+service+"]@["+remote_ip+"]:["+remote_port+"] SIP/2.0\n"
-		packet = packet+ "Via: SIP/2.0/["+transport+"] ["+local_ip+"]:["+local_port+"];branch=["+branch+"]\n"
-		packet = packet+ "From: <sip:sipp@["+local_ip+"]:["+local_port+"]>;tag=["+call_number+"]\n"
-		packet = packet+ "To: sut <sip:["+service+"]@["+remote_ip+"]:["+remote_port+"]>\n"
-		packet = packet+ "Call-ID: ["+call_id+"]\n"
-		packet = packet+ "CSeq: "+Csqint+" "+CsqmethodName+["\n"]
-		packet = packet + "Contact: sip:sipp@["+local_ip+"]:["+local_port+"]\n"
-		packet = packet + "Max-Forwards: 1\n"
-		packet = packet + "Subject: Wake up Call"
-		packet = packet + "Content-Type:"+ContentType+"\n"
-		packet = packet + "COntent-Length"+ContentLength+"\n"
-	}
-
-		else if(SIPp.Type=ACK){
-		packet := "ACK sip:["+service+"]@["+remote_ip+"]:["+remote_port+"] SIP/2.0\n"
-		packet = packet+ "Via: SIP/2.0/["+transport+"] ["+local_ip+"]:["+local_port+"];branch=["+branch+"]\n"
-		packet = packet+ "From: <sip:sipp@["+local_ip+"]:["+local_port+"]>;tag=["+call_number+"]\n"
-		packet = packet+ "To: sut <sip:["+service+"]@["+remote_ip+"]:["+remote_port+"]>["+peer_tag_param+"]\n"
-		packet = packet+ "Call-ID: ["+call_id+"]\n"
-		packet = packet+ "CSeq: "+Csqint+" "+CsqmethodName+["\n"]
-		packet = packet + "Contact: sip:sipp@["+local_ip+"]:["+local_port+"]\n"
-		packet = packet + "Max-Forwards: 1\n"
-		packet = packet + "Subject: Wake up Call"
-		packet = packet + "COntent-Length"+ContentLength+"\n"
-	}
-
-		else (SIPp.Type=BYE){
-		packet := "BYE sip:["+service+"]@["+remote_ip+"]:["+remote_port+"] SIP/2.0\n"
-		packet = packet+ "Via: SIP/2.0/["+transport+"] ["+local_ip+"]:["+local_port+"];branch=["+branch+"]\n"
-		packet = packet+ "From: <sip:sipp@["+local_ip+"]:["+local_port+"]>;tag=["+call_number+"]\n"
-		packet = packet+ "To: sut <sip:["+service+"]@["+remote_ip+"]:["+remote_port+"]>["+peer_tag_param+"]\n"
-		packet = packet+ "Call-ID: ["+call_id+"]\n"
-		packet = packet+ "CSeq: "+Csqint+" "+CsqmethodName+["\n"]
-		packet = packet + "Contact: sip:sipp@["+local_ip+"]:["+local_port+"]\n"
-		packet = packet + "Max-Forwards: 1\n"
-		packet = packet + "Subject: Wake up Call"
-		packet = packet + "COntent-Length"+ContentLength+"\n"
-}		
-	buffer.WriteString(packet)
+	var packet []byte 
+	if(SIPp.Type=="INVITE"){
+		packet = []byte("Invite sip:["+SIPp.service+"]@["+SIPp.remote_ip+"]:["+SIPp.remote_port+"] SIP/2.0\n" + "Via: SIP/2.0/["+SIPp.transport+"] ["+SIPp.local_ip+"]:["+SIPp.local_port+"];branch=["+SIPp.branch+"]\n" + "From: <sip:sipp@["+SIPp.local_ip+"]:["+SIPp.local_port+"]>;tag=["+SIPp.call_number+"]\n" + "To: sut <sip:["+SIPp.service+"]@["+SIPp.remote_ip+"]:["+SIPp.remote_port+"]>\n" + "Call-ID: ["+SIPp.call_id+"]\n" + "CSeq: "+SIPp.Csqint+" "+SIPp.CsqmethodName+"\n" + "Contact: sip:sipp@["+SIPp.local_ip+"]:["+SIPp.local_port+"]\n" + "Max-Forwards: 1\n" + "Subject: Wake up Call" + "Content-SIPp.Type:"+SIPp.ContentType+"\n" + "Content-Length"+SIPp.ContentLength+"\n")
+	} else if(SIPp.Type=="ACK"){
+		packet = []byte("ACK sip:["+SIPp.service+"]@["+SIPp.remote_ip+"]:["+SIPp.remote_port+"] SIP/2.0\n" + "Via: SIP/2.0/["+SIPp.transport+"] ["+SIPp.local_ip+"]:["+SIPp.local_port+"];branch=["+SIPp.branch+"]\n" + "From: <sip:sipp@["+SIPp.local_ip+"]:["+SIPp.local_port+"]>;tag=["+SIPp.call_number+"]\n" + "To: sut <sip:["+SIPp.service+"]@["+SIPp.remote_ip+"]:["+SIPp.remote_port+"]>["+SIPp.peer_tag_param+"]\n"+ "Call-ID: ["+SIPp.call_id+"]\n"	+ "CSeq: "+SIPp.Csqint+" "+SIPp.CsqmethodName+"\n" + "Contact: sip:sipp@["+SIPp.local_ip+"]:["+SIPp.local_port+"]\n" + "Max-Forwards: 1\n" + "Subject: Wake up Call" + "Content-Length"+SIPp.ContentLength+"\n")
+	} else if(SIPp.Type=="BYE"){
+		packet = []byte("BYE sip:["+ SIPp.service+"]@["+SIPp.remote_ip+"]:["+SIPp.remote_port+"] SIP/2.0\n"+ "Via: SIP/2.0/["+SIPp.transport+"] ["+SIPp.local_ip+"]:["+SIPp.local_port+"];branch=["+SIPp.branch+"]\n"+ "From: <sip:sipp@["+SIPp.local_ip+"]:["+SIPp.local_port+"]>;tag=["+SIPp.call_number+"]\n"+ "To: sut <sip:["+SIPp.service+"]@["+ SIPp.remote_ip+"]:["+SIPp.remote_port+"]>["+ SIPp.peer_tag_param+"]\n"	+ "Call-ID: ["+SIPp.call_id+"]\n"+ "CSeq: "+SIPp.Csqint+" "+SIPp.CsqmethodName+"\n" + "Contact: sip:sipp@["+SIPp.local_ip+"]:["+SIPp.local_port+"]\n" + "Max-Forwards: 1\n" + "Subject: Wake up Call" + "Content-Length"+SIPp.ContentLength+"\n")
+	}		
+	return packet
 }
 
-
-
+func (SDPp *SDPpacket) SdpToString() []byte{
+	var packet []byte
+	//packet = []byte("v=0\no=user1 53655765 2353687637 IN IP4 " + local_ip + "\ns=-\nc=IN IP4 " + local_ip + "\nt=0 0\n")
+	return packet
+}
 
 
 

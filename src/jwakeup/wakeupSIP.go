@@ -25,7 +25,8 @@ func (wS *wakeupSIP) addCALL(nCall wCall){
 }
 
 func (wS *wakeupSIP) makeCALL(){
-
+	
+	//wS.callOut.send()
 }
 
 func (wS *wakeupSIP) logUSER(nUser wUser){
@@ -58,6 +59,8 @@ func (wS *wakeupSIP) wSIPstart(port string, dest string,
 	nuc chan wUser, ncc chan wCall, nmessC chan string) {
 	fmt.Println("Starting SIP server...")
 
+	wS.callOut.init(port, dest)
+	
 	cMess := ""
 	
 	wS.messC = nmessC
@@ -72,7 +75,7 @@ func (wS *wakeupSIP) wSIPstart(port string, dest string,
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
-
+	
 	for cMess != "terminate" {
 		cMess = <- wS.messC
 		fmt.Println("Got input!")
@@ -97,4 +100,6 @@ type wakeupSIP struct {
 	
 	loggedList []wUser
 	callList []wCall
+
+	callOut UDPOutput
 }
