@@ -56,7 +56,7 @@ type SDPpacket struct{
 	time string
 	mediaName string
 	transportAdress string
-	MediaAttribute lines // o or more media attribute linesoveriding the Sesion attribute lines rtpmap: 0
+	MediaAttribute string
 
 
 }

@@ -11,43 +11,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"encoding/xml"
-	. "sync"
 )
-
-func (wS *wakeupSIP) wSIPstart(port string, dest string,
-	nuc chan wUser, ncc chan wCall, nmessC chan string,
-	num *Mutex, ncm *Mutex, nmessM *Mutex) {
-	fmt.Println("Starting SIP server...")
-
-	//cMess := ""
-	
-	wS.messC = nmessC
-	wS.fromMainU = nuc
-	wS.fromMainC = ncc
-
-	wS.messM = nmessM
-	wS.mutexMainU = num
-	wS.mutexMainC = ncm
-
-	tempin, _ := ioutil.ReadFile("../../userbase/wakelist.xml")
-	var listin wCallList
-	err := xml.Unmarshal(tempin, &listin)
-	wS.callList = listin.WCallList
-
-	if err != nil {
-		fmt.Println("Error: ", err)
-	}
-
-	//for cMess != "terminate" {
-
-	//}
-	
-}
-
-func (wS *wakeupSIP) wSIPstop() {
-	fmt.Println("Stopping SIP server...")
-
-}
 
 func (wS *wakeupSIP) addCALL(nCall wCall){
 	wS.callList = append(wS.callList, nCall)
@@ -88,14 +52,48 @@ func (wS *wakeupSIP) logoutUSER(nUser wUser) bool{
 		return true
 	}
 }
+
+
+func (wS *wakeupSIP) wSIPstart(port string, dest string,
+	nuc chan wUser, ncc chan wCall, nmessC chan string) {
+	fmt.Println("Starting SIP server...")
+
+	cMess := ""
+	
+	wS.messC = nmessC
+	wS.fromMainU = nuc
+	wS.fromMainC = ncc
+
+	tempin, _ := ioutil.ReadFile("../../userbase/wakelist.xml")
+	var listin wCallList
+	err := xml.Unmarshal(tempin, &listin)
+	wS.callList = listin.WCallList
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	for cMess != "terminate" {
+		cMess = <- wS.messC
+		fmt.Println("Got input!")
+		if(cMess == "adduser"){
+			nu := <- wS.fromMainU
+			wS.logUSER(nu)
+		}
+	}
+
+	wS.wSIPstop()
+}
+
+func (wS *wakeupSIP) wSIPstop() {
+	fmt.Println("Stopping SIP server...")
+
+}
+
 type wakeupSIP struct {
 	fromMainU chan wUser
 	fromMainC chan wCall
 	messC chan string
-
-	mutexMainU *Mutex
-	mutexMainC *Mutex
-	messM *Mutex
 	
 	loggedList []wUser
 	callList []wCall
