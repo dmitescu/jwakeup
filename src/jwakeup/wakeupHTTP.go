@@ -33,6 +33,9 @@ func (wH *wakeupHTTP) Hindex(w http.ResponseWriter, r *http.Request) {
 
 func (wH *wakeupHTTP) Hlogo(w http.ResponseWriter, r *http.Request){
 	dat, _ := ioutil.ReadFile("../../www/logo.png")
+	w.Header().Set("Content-Type", "image/png")
+    w.Header().Set("Content-Length", strconv.Itoa(len(dat.Bytes())))
+	w.Write(dat.Bytes())
 	fmt.Fprintf(w, string(dat))
 }
 

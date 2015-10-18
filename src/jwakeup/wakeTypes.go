@@ -74,7 +74,7 @@ func (SIPp *SIPpacket) SipToString() []byte{
 
 func (SDPp *SDPpacket) SdpToString() []byte{
 	var packet []byte
-	//packet = []byte("v=0\no=user1 53655765 2353687637 IN IP4 " + local_ip + "\ns=-\nc=IN IP4 " + local_ip + "\nt=0 0\n")
+	packet = []byte("v=0\no=user1 53655765 2353687637 IN IP4 " + local_ip + "\ns=-\nc=IN IP4 " + local_ip + "\nt=0 0\n")
 	return packet
 }
 
