@@ -14,6 +14,7 @@ import (
 	"bytes"
 	"strings"
 	"encoding/json"
+	"time"
 )
 
 type messageLogin struct {
@@ -37,19 +38,43 @@ func (wH *wakeupHTTP) Hlogo(w http.ResponseWriter, r *http.Request){
 
 func (wH *wakeupHTTP) Hlogin(w http.ResponseWriter, r *http.Request){
 	r.ParseForm()
+	
         // logic part of log in
         newtoken := login(r.Form["username"][0], r.Form["password"][0])
 	if newtoken == "" {
 		fmt.Println("Wrong login!")
+		fmt.Fprintf(w, "<html><body><script>window.location.assign(\"/\")</script></body></html>")
 	} else {
 		var newuser wUser
 		newuser.token = newtoken
 		newuser.username = r.Form["username"][0]
-		
+		newuser.phonenr = phone_number(newtoken)
+			
 		wH.messC <- "adduser"
 		wH.toMainU <- newuser
+
+		var newCookie http.Cookie
+		newCookie.Name = "logtoken"
+		newCookie.Value = newtoken
+		newCookie.Expires = time.Now().Add(time.Minute*10)
+		//newCookie.Raw = ""
+		//newCookie.Unparsed = {""}
+		http.SetCookie(w, &newCookie)
+
+		fmt.Fprintf(w, "<html><body><script>window.location.assign(\"/home\")</script></body></html>")
 	}
 	
+}
+
+func (wH *wakeupHTTP) Hhome(w http.ResponseWriter, r *http.Request){
+	cookie, err := r.Cookie("logtoken")
+	if (err != nil){
+		fmt.Fprintf(w,"<html><body><script>window.location.assign(\"/\")</script></body></html>")
+	} else {
+		fmt.Println(cookie.Value)
+		dat, _ := ioutil.ReadFile("../../www/Home.html")
+		fmt.Fprintf(w, string(dat))
+	}
 }
 
 func (wH *wakeupHTTP) wHTTPstart(port string,
@@ -63,6 +88,7 @@ func (wH *wakeupHTTP) wHTTPstart(port string,
 	
 	http.HandleFunc("/", wH.Hindex)
 	http.HandleFunc("/login", wH.Hlogin)
+	http.HandleFunc("/home", wH.Hhome)
 	http.HandleFunc("logo.png", wH.Hlogo)
 	http.ListenAndServe(port, nil)
 
@@ -102,8 +128,8 @@ func login(uname string, pass string) string{
 	return m.Token
 }
 
-func phone_number(sUser wUser) string{
-	url := "https://api.jacobs-cs.club/user/me?token="+sUser.token
+func phone_number(token string) string{
+	url := "https://api.jacobs-cs.club/user/me?token="+token
 
 	client := &http.Client{}
 	req, err := client.Get(url)

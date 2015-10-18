@@ -34,9 +34,9 @@ func (wS *wakeupSIP) logUSER(nUser wUser){
 	fmt.Println("User", nUser.username, "logged in!")
 }
 
-func (wS *wakeupSIP) checkUSER(sUser string) (bool, int){
+func (wS *wakeupSIP) checkUSER(sToken string) (bool, int){
 	for iUser, dUser := range wS.loggedList{
-		if(dUser.username == sUser) {
+		if(dUser.token == sToken) {
 			return true, iUser
 		}
 	}

@@ -14,6 +14,7 @@ import (
 type wUser struct{
 	username string `xml:"username"`
 	token string `xml:"token"`
+	phonenr string
 }
 
 type wCall struct{
