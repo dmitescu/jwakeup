@@ -13,3 +13,8 @@ Nicolae Andrei <an.nicolae@jacobs-university.de>
 Vlad Zamfir <v.zamfir@jacobs-university.de>
 
 Vlad Frasineanu <v.frasineanu@jacobs-university.de>
+
+# Mailing list
+Suggestions, bug reports, contributions can be submitted at:
+
+<jwakeup-dev@googlegroups.com>
