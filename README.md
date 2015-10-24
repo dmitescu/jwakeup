@@ -7,6 +7,9 @@ Basic functionality has been added for HTTP, but is yet incomplete for SIP.
 # Maintainers
 
 Mitescu George Dan <d.mitescu@jacobs-university.de>
+
 Nicolae Andrei <an.nicolae@jacobs-university.de>
+
 Vlad Zamfir <v.zamfir@jacobs-university.de>
+
 Vlad Frasineanu <v.frasineanu@jacobs-university.de>
