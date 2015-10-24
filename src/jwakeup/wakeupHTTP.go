@@ -17,6 +17,9 @@ import (
 	"strconv"
 )
 
+//-----------------------------
+//Structs used for form parsing
+//-----------------------------
 type messageLogin struct {
 	Token string `json:"token"`
 	User string `json:"user"`
@@ -26,15 +29,44 @@ type messagePhone struct {
   	Phone string `json:"phone"`
 }
 
+//----------------------------
+//   HTTP Handler functions
+//----------------------------
 func (wH *wakeupHTTP) Hindex(w http.ResponseWriter, r *http.Request) {
 	dat, _ := ioutil.ReadFile("./www/index.html")
 	fmt.Fprintf(w, string(dat))
 }
 
-func (wH *wakeupHTTP) Hlogo(w http.ResponseWriter, r *http.Request){
+func (wH *wakeupHTTP) Hlogo1(w http.ResponseWriter, r *http.Request){
 	dat, _ := ioutil.ReadFile("./www/logo.png")
 	w.Header().Set("Content-Type", "image/png")
 	w.Header().Set("Content-Length", strconv.Itoa(len(dat)))
+	w.Write(dat)
+}
+
+func (wH *wakeupHTTP) Hlogo2(w http.ResponseWriter, r *http.Request){
+	dat, _ := ioutil.ReadFile("./www/jwakeup_logo.png")
+	w.Header().Set("Content-Type", "image/png")
+	w.Header().Set("Content-Length", strconv.Itoa(len(dat)))
+	w.Write(dat)
+}
+
+func (wH *wakeupHTTP) Hclock(w http.ResponseWriter, r *http.Request){
+	dat, _ := ioutil.ReadFile("./www/clock.png")
+	w.Header().Set("Content-Type", "image/png")
+	w.Header().Set("Content-Length", strconv.Itoa(len(dat)))
+	w.Write(dat)
+}
+
+func (wH *wakeupHTTP) Hback2(w http.ResponseWriter, r *http.Request){
+	dat, _ := ioutil.ReadFile("./www/background2.jpg")
+	w.Header().Set("Content-Type", "image/jpg")
+	w.Header().Set("Content-Length", strconv.Itoa(len(dat)))
+	w.Write(dat)
+}
+
+func (wH *wakeupHTTP) HStyle(w http.ResponseWriter, r *http.Request){
+	dat, _ := ioutil.ReadFile("./www/style.css")
 	w.Write(dat)
 }
 
@@ -79,6 +111,10 @@ func (wH *wakeupHTTP) Hhome(w http.ResponseWriter, r *http.Request){
 	//}
 }
 
+
+//---------------------------------
+// Main method for starting server
+//---------------------------------
 func (wH *wakeupHTTP) wHTTPstart(port string,
 	nuc chan wUser, ncc chan wCall, nmessC chan string) {
 	
@@ -91,15 +127,28 @@ func (wH *wakeupHTTP) wHTTPstart(port string,
 	http.HandleFunc("/", wH.Hindex)
 	http.HandleFunc("/login", wH.Hlogin)
 	http.HandleFunc("/home", wH.Hhome)
-	http.HandleFunc("logo.png", wH.Hlogo)
+
+	//TODO: Add regexp for png, jpg and remote files
+	http.HandleFunc("/style.css", wH.HStyle)
+	http.HandleFunc("/logo.png", wH.Hlogo1)
+	http.HandleFunc("/jwakeup_logo.png", wH.Hlogo2)
+	http.HandleFunc("/clock.png", wH.Hclock)
+	http.HandleFunc("/background2.jpg", wH.Hback2)
 	http.ListenAndServe(port, nil)
 
 }
+
+//-------------------------------
+// Main method for stopping HTTP
+//-------------------------------
 
 func (wH *wakeupHTTP) wHTTPstop() {
 	fmt.Println("Stopping HTTP server...")
 }
 
+//-------------------------------
+//     OpenJUB API handling
+//-------------------------------
 func login(uname string, pass string) string{
 	url := "https://api.jacobs-cs.club/auth/signin"
 
@@ -153,6 +202,9 @@ func phone_number(token string) string{
 	return m.Phone
 }
 
+//---------------
+//   Main class
+//---------------
 
 type wakeupHTTP struct {
 	toMainU chan wUser

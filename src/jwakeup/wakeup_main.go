@@ -10,11 +10,13 @@ package main
 import (
 	"fmt"
 	"time"
+	"bufio"
+	"os"
 )
 
 func main(){
-	//reader := bufio.NewReader(os.Stdin)
-	//var keyIn string = "hmm"
+	reader := bufio.NewReader(os.Stdin)
+	var keyIn string
 
 	fmt.Println("Starting JWakeup...")
 	
@@ -30,7 +32,12 @@ func main(){
 	time.Sleep(time.Second * 2)
 	
 	go mainSIP.wSIPstart(":5051", "127.0.0.1", userC, callC, messC)
-	time.Sleep(time.Second * 60)
+	
+	for (keyIn != "quit\n"){
+		keyIn, _ = reader.ReadString('\n')
+	}	
+
+	mainSIP.wSIPstop()
 	mainHTTP.wHTTPstop()
 	
 }
