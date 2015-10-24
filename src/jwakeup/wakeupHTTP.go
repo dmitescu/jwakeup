@@ -27,12 +27,12 @@ type messagePhone struct {
 }
 
 func (wH *wakeupHTTP) Hindex(w http.ResponseWriter, r *http.Request) {
-	dat, _ := ioutil.ReadFile("../../www/index.html")
+	dat, _ := ioutil.ReadFile("./www/index.html")
 	fmt.Fprintf(w, string(dat))
 }
 
 func (wH *wakeupHTTP) Hlogo(w http.ResponseWriter, r *http.Request){
-	dat, _ := ioutil.ReadFile("../../www/logo.png")
+	dat, _ := ioutil.ReadFile("./www/logo.png")
 	w.Header().Set("Content-Type", "image/png")
 	w.Header().Set("Content-Length", strconv.Itoa(len(dat)))
 	w.Write(dat)
@@ -74,7 +74,7 @@ func (wH *wakeupHTTP) Hhome(w http.ResponseWriter, r *http.Request){
 	//	fmt.Fprintf(w,"<html><body><script>window.location.assign(\"/\")</script></body></html>")
 	//} else {
 	//	fmt.Println(cookie.Value)
-		dat, _ := ioutil.ReadFile("../../www/Home.html")
+		dat, _ := ioutil.ReadFile("./www/Home.html")
 		fmt.Fprintf(w, string(dat))
 	//}
 }

@@ -30,7 +30,7 @@ func main(){
 	time.Sleep(time.Second * 2)
 	
 	go mainSIP.wSIPstart(":5051", "127.0.0.1", userC, callC, messC)
-	time.Sleep(time.Second * 15)
+	time.Sleep(time.Second * 60)
 	mainHTTP.wHTTPstop()
 	
 }
