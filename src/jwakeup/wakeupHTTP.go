@@ -15,6 +15,7 @@ import (
 	"strings"
 	"encoding/json"
 	"strconv"
+	"time"
 )
 
 //-----------------------------
@@ -33,8 +34,13 @@ type messagePhone struct {
 //   HTTP Handler functions
 //----------------------------
 func (wH *wakeupHTTP) Hindex(w http.ResponseWriter, r *http.Request) {
-	dat, _ := ioutil.ReadFile("./www/index.html")
-	fmt.Fprintf(w, string(dat))
+	_, err := r.Cookie("jwakeup_token")
+	if (err != nil){
+		dat, _ := ioutil.ReadFile("./www/index.html")
+		fmt.Fprintf(w, string(dat))
+	} else {
+		http.Redirect(w, r, "/home", 302)
+	}
 }
 
 func (wH *wakeupHTTP) Hlogo1(w http.ResponseWriter, r *http.Request){
@@ -76,39 +82,39 @@ func (wH *wakeupHTTP) Hlogin(w http.ResponseWriter, r *http.Request){
         // logic part of log in
         newtoken := login(r.Form["username"][0], r.Form["password"][0])
 	if newtoken == "" {
-		fmt.Println("Wrong login!")
-		fmt.Fprintf(w, "<html><body><script>window.location.assign(\"/\")</script></body></html>")
+		//fmt.Println("Wrong login!")
+		http.Redirect(w, r, "/", 302)
 	} else {
 		var newuser wUser
 		newuser.token = newtoken
 		newuser.username = r.Form["username"][0]
 		newuser.phonenr = phone_number(newtoken)
-			
+
+		// sending user to the list
 		wH.messC <- "adduser"
 		wH.toMainU <- newuser
 
-		//var newCookie http.Cookie
-		//newCookie.Name = "logtoken"
-		//newCookie.Value = newtoken
-		//newCookie.Expires = time.Now().Add(time.Minute*10)
-		//newCookie.Raw = ""
-		//newCookie.Unparsed = {""}
-		//http.SetCookie(w, &newCookie)
+		// adding cookie
+		nCookie := http.Cookie{Name: "jwakeup_token",
+			Value: newtoken,
+			Expires: time.Now().Add(time.Minute*10)}
+		http.SetCookie(w, &nCookie)
 
-		fmt.Fprintf(w, "<html><body><script>window.location.assign(\"/home\")</script></body></html>")
+		// redirecting to home page
+		http.Redirect(w, r, "/home", 302)
 	}
 	
 }
 
 func (wH *wakeupHTTP) Hhome(w http.ResponseWriter, r *http.Request){
-	//cookie, err := r.Cookie("logtoken")
-	//if (err != nil){
-	//	fmt.Fprintf(w,"<html><body><script>window.location.assign(\"/\")</script></body></html>")
-	//} else {
-	//	fmt.Println(cookie.Value)
+	cookie, err := r.Cookie("jwakeup_token")
+	if (err != nil){
+		http.Redirect(w, r, "/", 302)
+	} else {
+		fmt.Println(cookie.Value)
 		dat, _ := ioutil.ReadFile("./www/Home.html")
 		fmt.Fprintf(w, string(dat))
-	//}
+	}
 }
 
 
