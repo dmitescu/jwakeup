@@ -141,7 +141,7 @@ func (wS *wakeupSIP) wSIPstart(port string, dest string,
 	wS.fromMainU = nuc
 	wS.fromMainC = ncc
 
-	tempin, _ := ioutil.ReadFile("../../userbase/wakelist.xml")
+	tempin, _ := ioutil.ReadFile("./userbase/wakelist.xml")
 	var listin wCallList
 	err := xml.Unmarshal(tempin, &listin)
 	wS.callList = listin.WCallList
