@@ -1,7 +1,7 @@
 init:	exppath comp
 
 exppath:
-	export GOPATH=./src/jwakeup
+	export GOPATH=$(PWD)
 
 comp:
 	go build jwakeup
