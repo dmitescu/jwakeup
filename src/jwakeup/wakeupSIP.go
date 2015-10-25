@@ -14,6 +14,11 @@ import (
 	"strconv"
 )
 
+//-------------------------------------
+// Main SIP functions which treat both
+//      SIP and API related issues
+//-------------------------------------
+
 func (wS *wakeupSIP) addCALL(nCall wCall){
 	wS.callList = append(wS.callList, nCall)
 	fmt.Println("Added call to", nCall.Phonenr,
@@ -26,7 +31,7 @@ func (wS *wakeupSIP) addCALL(nCall wCall){
 }
 
 func (wS *wakeupSIP) makeCALL(scall wCall){
-	
+	/*
 	var INVITE_PACK SIPpacket 
 	INVITE_PACK.Type = "INVITE"
 	INVITE_PACK.branch = "z9hG4bK-17409-1-0"
@@ -91,6 +96,7 @@ func (wS *wakeupSIP) makeCALL(scall wCall){
 	//callOut.send(someINVITE)
 	
 	//status = callOut.recv();
+*/
 }
 
 func (wS *wakeupSIP) logUSER(nUser wUser){
@@ -119,6 +125,10 @@ func (wS *wakeupSIP) logoutUSER(nUser wUser) bool{
 }
 
 
+//------------------------------------
+// Main SIP server handling goes here
+//------------------------------------
+
 func (wS *wakeupSIP) wSIPstart(port string, dest string,
 	nuc chan wUser, ncc chan wCall, nmessC chan string) {
 	fmt.Println("Starting SIP server...")
@@ -142,8 +152,9 @@ func (wS *wakeupSIP) wSIPstart(port string, dest string,
 	
 	for cMess != "terminate" {
 		cMess = <- wS.messC
-		fmt.Println("Got input!")
-		if(cMess == "adduser"){
+		//fmt.Println("Got input!")
+		switch cMess {
+		case "adduser":
 			nu := <- wS.fromMainU
 			wS.logUSER(nu)
 		}
