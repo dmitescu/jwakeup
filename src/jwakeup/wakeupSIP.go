@@ -9,8 +9,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"encoding/xml"
+	//"io/ioutil"
+	//"encoding/xml"
 	//"strconv"
 )
 
@@ -24,10 +24,10 @@ func (wS *wakeupSIP) addCALL(nCall wCall){
 	fmt.Println("Added call to", nCall.Phonenr,
 		"at", nCall.Calltime)
 	
-	var listout wCallList
-	listout.WCallList = wS.callList
-	tempout, _ := xml.MarshalIndent(listout, "  ", "    ")
-	ioutil.WriteFile("../../userbase/wakelist.xml", tempout, 0644)
+	//var listout wCallList
+	//listout.WCallList = wS.callList
+	//tempout, _ := xml.MarshalIndent(listout, "  ", "    ")
+	//ioutil.WriteFile("../../userbase/wakelist.xml", tempout, 0644)
 }
 
 func (wS *wakeupSIP) makeCALL(scall wCall){
@@ -141,14 +141,14 @@ func (wS *wakeupSIP) wSIPstart(port string, dest string,
 	wS.fromMainU = nuc
 	wS.fromMainC = ncc
 
-	tempin, _ := ioutil.ReadFile("./userbase/wakelist.xml")
-	var listin wCallList
-	err := xml.Unmarshal(tempin, &listin)
-	wS.callList = listin.WCallList
+	//tempin, _ := ioutil.ReadFile("./userbase/wakelist.xml")
+	//var listin wCallList
+	//err := xml.Unmarshal(tempin, &listin)
+	//wS.callList = listin.WCallList
 
-	if err != nil {
-		fmt.Println("Error: ", err)
-	}
+	//if err != nil {
+	//	fmt.Println("Error: ", err)
+	//}
 	
 	for cMess != "terminate" {
 		cMess = <- wS.messC
