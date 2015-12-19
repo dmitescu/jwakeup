@@ -10,14 +10,11 @@ package main
 import (
 	"fmt"
 	"time"
-	"bufio"
 	"os"
+	"os/signal"
 )
 
 func main(){
-	reader := bufio.NewReader(os.Stdin)
-	var keyIn string
-
 	fmt.Println("Starting JWakeup...")
 	
 	var mainHTTP wakeupHTTP
@@ -33,11 +30,19 @@ func main(){
 	
 	go mainSIP.wSIPstart(":5051", "127.0.0.1", userC, callC, messC)
 	
-	for (keyIn != "quit\n"){
-		keyIn, _ = reader.ReadString('\n')
-	}	
+	sigChannel  := make(chan os.Signal, 1)
+	termChannel := make(chan bool, 1)
+	signal.Notify(sigChannel, os.Interrupt)
+	go func(){
+		for sig := range sigChannel {
+			fmt.Println()
+			fmt.Println(sig)
+			mainSIP.wSIPstop()
+			mainHTTP.wHTTPstop()
+			termChannel <- true
+		}
+	}()
 
-	mainSIP.wSIPstop()
-	mainHTTP.wHTTPstop()
-	
+	<-termChannel
+	fmt.Println("Terminating server...")
 }
