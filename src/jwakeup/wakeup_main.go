@@ -12,6 +12,7 @@ import (
 	"time"
 	"os"
 	"os/signal"
+	"syscall"
 )
 
 func main(){
@@ -32,7 +33,7 @@ func main(){
 	
 	sigChannel  := make(chan os.Signal, 1)
 	termChannel := make(chan bool, 1)
-	signal.Notify(sigChannel, os.Interrupt)
+	signal.Notify(sigChannel, syscall.SIGINT, syscall.SIGTERM)
 	go func(){
 		for sig := range sigChannel {
 			fmt.Println()
