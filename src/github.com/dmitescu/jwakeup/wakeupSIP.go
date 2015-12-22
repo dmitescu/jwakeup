@@ -1,23 +1,22 @@
-// JWakeup
-// Copyright (c) 2015 
-// Mitescu George Dan <d.mitescu@jacobs-university.de>
-// Nicolae Andrei <an.nicolae@jacobs-university.de>
-// Frasineanu Catalin Vlad <v.frasineanu@jacobs-university.de>
-// Zamfir Andrei Vlad <v.zamfir@jacobs-university.de>
+/*
+   JWakeup
+   Copyright (c) 2015 
+   Mitescu George Dan <d.mitescu@jacobs-university.de>
+   Nicolae Andrei <an.nicolae@jacobs-university.de>
+   Frasineanu Catalin Vlad <v.frasineanu@jacobs-university.de>
+   Zamfir Andrei Vlad <v.zamfir@jacobs-university.de>
+*/
 
 package main
 
 import (
 	"fmt"
-	//"io/ioutil"
-	//"encoding/xml"
-	//"strconv"
 )
 
-//-------------------------------------
-// Main SIP functions which treat both
-//      SIP and API related issues
-//-------------------------------------
+/*
+   Main SIP functions which treat both
+   SIP and API related issues
+*/
 
 func (wS *wakeupSIP) addCALL(nCall wCall){
 	wS.callList = append(wS.callList, nCall)
@@ -125,10 +124,9 @@ func (wS *wakeupSIP) logoutUSER(nUser wUser) bool{
 }
 
 
-//------------------------------------
-// Main SIP server handling goes here
-//------------------------------------
-
+/*
+   Main SIP server handling goes here
+*/
 func (wS *wakeupSIP) wSIPstart(port string, dest string,
 	nuc chan wUser, ncc chan wCall, nmessC chan string) {
 	fmt.Println("Starting SIP server...")
@@ -168,6 +166,9 @@ func (wS *wakeupSIP) wSIPstop() {
 
 }
 
+/*
+   Main class
+*/
 type wakeupSIP struct {
 	fromMainU chan wUser
 	fromMainC chan wCall

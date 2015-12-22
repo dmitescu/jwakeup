@@ -1,65 +1,51 @@
-// JWakeup
-// Copyright (c) 2015 
-// Mitescu George Dan <d.mitescu@jacobs-university.de>
-// Nicolae Andrei <an.nicolae@jacobs-university.de>
-// Frasineanu Catalin Vlad <v.frasineanu@jacobs-university.de>
-// Zamfir Andrei Vlad <v.zamfir@jacobs-university.de>
+/*
+   JWakeup
+   Copyright (c) 2015 
+   Mitescu George Dan <d.mitescu@jacobs-university.de>
+   Nicolae Andrei <an.nicolae@jacobs-university.de>
+   Frasineanu Catalin Vlad <v.frasineanu@jacobs-university.de>
+   Zamfir Andrei Vlad <v.zamfir@jacobs-university.de>
+*/
 
-package main
-
-import (
-	"time"
-)
-
-type wUser struct{
-	username string `xml:"username"`
-	token string `xml:"token"`
-	phonenr string
-}
-
-type wCall struct{
-	Callid int `xml:"callid"`
-	Phonenr string `xml:"phonenr"`
-	Calltime time.Time `xml:"calltime"`
-}
-
-type wCallList struct{
-	WCallList []wCall `xml:"entry"`
-}
-
-//Packet types
-
+/*
+   Main SIP packet structure
+*/
 type SIPpacket struct {
-	Type string
-	branch string
-	call_id string
-	tag string
-	call_number string
-	CsqmethodName string
-	Csqint string
-	ContentType string
-	ContentLength string
-	service string
-	remote_ip string
-	remote_port string
-	transport string
-	local_ip string
-	local_port string
+	Type           string
+	branch         string
+	call_id        string
+	tag            string
+	call_number    string
+	CsqmethodName  string
+	Csqint         string
+	ContentType    string
+	ContentLength  string
+	service        string
+	remote_ip      string
+	remote_port    string
+	transport      string
+	local_ip       string
+	local_port     string
 	peer_tag_param string
 	
 }
 
+/*
+   Main SDP packet structure
+*/
 type SDPpacket struct{
-	local_ip string
-	SesionName string
-	time string
-	mediaName string
+	local_ip        string
+	SesionName      string
+	time            string
+	mediaName       string
 	transportAdress string
-	MediaAttribute string
-
-
+	MediaAttribute  string
 }
 
+
+/*
+   Dummy serializers for SIP and SDP
+*/
 func (SIPp *SIPpacket) SipToString() []byte{
 	var packet []byte 
 	if(SIPp.Type=="INVITE"){
@@ -79,7 +65,3 @@ func (SDPp *SDPpacket) SdpToString() []byte{
 }
 
 
-
-
-
-		

@@ -1,9 +1,11 @@
-// JWakeup
-// Copyright (c) 2015 
-// Mitescu George Dan <d.mitescu@jacobs-university.de>
-// Nicolae Andrei <an.nicolae@jacobs-university.de>
-// Frasineanu Catalin Vlad <v.frasineanu@jacobs-university.de>
-// Zamfir Andrei Vlad <v.zamfir@jacobs-university.de>
+/*
+   JWakeup
+   Copyright (c) 2015 
+   Mitescu George Dan <d.mitescu@jacobs-university.de>
+   Nicolae Andrei <an.nicolae@jacobs-university.de>
+   Frasineanu Catalin Vlad <v.frasineanu@jacobs-university.de>
+   Zamfir Andrei Vlad <v.zamfir@jacobs-university.de>
+*/
 
 package main
 
@@ -18,9 +20,9 @@ import (
 	"time"
 )
 
-//-----------------------------
-//Structs used for form parsing
-//-----------------------------
+/*
+   Structs used for form parsing
+*/
 type messageLogin struct {
 	Token string `json:"token"`
 	User string `json:"user"`
@@ -30,9 +32,9 @@ type messagePhone struct {
   	Phone string `json:"phone"`
 }
 
-//----------------------------
-//   HTTP Handler functions
-//----------------------------
+/*
+   Handler-functions for HTTP requests
+*/
 func (wH *wakeupHTTP) Hindex(w http.ResponseWriter, r *http.Request) {
 	_, err := r.Cookie("jwakeup_token")
 	if (err != nil){
@@ -117,10 +119,9 @@ func (wH *wakeupHTTP) Hhome(w http.ResponseWriter, r *http.Request){
 	}
 }
 
-
-//---------------------------------
-// Main method for starting server
-//---------------------------------
+/*
+   Start of the main HTTP server
+*/
 func (wH *wakeupHTTP) wHTTPstart(port string,
 	nuc chan wUser, ncc chan wCall, nmessC chan string) {
 	
@@ -144,17 +145,17 @@ func (wH *wakeupHTTP) wHTTPstart(port string,
 
 }
 
-//-------------------------------
-// Main method for stopping HTTP
-//-------------------------------
+/*
+   Stopping the HTTP server...
+*/
 
 func (wH *wakeupHTTP) wHTTPstop() {
 	fmt.Println("Stopping HTTP server...")
 }
 
-//-------------------------------
-//     OpenJUB API handling
-//-------------------------------
+/*
+   OpenJUB API handling
+*/
 func login(uname string, pass string) string{
 	url := "https://api.jacobs-cs.club/auth/signin"
 
@@ -208,10 +209,9 @@ func phone_number(token string) string{
 	return m.Phone
 }
 
-//---------------
-//   Main class
-//---------------
-
+/*
+   Main class
+*/
 type wakeupHTTP struct {
 	toMainU chan wUser
 	toMainC chan wCall
