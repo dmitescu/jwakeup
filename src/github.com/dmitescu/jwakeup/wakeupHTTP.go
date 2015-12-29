@@ -122,7 +122,7 @@ func (wH *wakeupHTTP) Hhome(w http.ResponseWriter, r *http.Request){
 /*
    Start of the main HTTP server
 */
-func (wH *wakeupHTTP) wHTTPstart(port string,
+func (wH *wakeupHTTP) Start(port string,
 	nuc chan wUser, ncc chan wCall, nmessC chan string) {
 	
 	fmt.Println("Starting HTTP server...")
@@ -149,7 +149,7 @@ func (wH *wakeupHTTP) wHTTPstart(port string,
    Stopping the HTTP server...
 */
 
-func (wH *wakeupHTTP) wHTTPstop() {
+func (wH *wakeupHTTP) Stop() {
 	fmt.Println("Stopping HTTP server...")
 }
 

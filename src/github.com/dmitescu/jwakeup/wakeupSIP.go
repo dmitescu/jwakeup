@@ -127,7 +127,7 @@ func (wS *wakeupSIP) logoutUSER(nUser wUser) bool{
 /*
    Main SIP server handling goes here
 */
-func (wS *wakeupSIP) wSIPstart(port string, dest string,
+func (wS *wakeupSIP) Start(port string, dest string,
 	nuc chan wUser, ncc chan wCall, nmessC chan string) {
 	fmt.Println("Starting SIP server...")
 
@@ -159,7 +159,7 @@ func (wS *wakeupSIP) wSIPstart(port string, dest string,
 	wS.wSIPstop()
 }
 
-func (wS *wakeupSIP) wSIPstop() {
+func (wS *wakeupSIP) Stop() {
 	fmt.Println("Stopping SIP server...")
 
 }

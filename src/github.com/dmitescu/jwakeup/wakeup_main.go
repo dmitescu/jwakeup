@@ -28,9 +28,9 @@ func main(){
 	messC := make(chan string)
 
 	//Starting of the two main servers
-	go mainHTTP.wHTTPstart(":8080", userC, callC, messC)
+	go mainHTTP.Start(":8080", userC, callC, messC)
 	time.Sleep(time.Second * 2)
-	go mainSIP.wSIPstart(":5051", "127.0.0.1", userC, callC, messC)
+	go mainSIP.Start(":5051", "127.0.0.1", userC, callC, messC)
 
 	//Handling SIGTERM and SIGINT signals to execute a proper exit
 	sigChannel  := make(chan os.Signal, 1)
@@ -40,8 +40,8 @@ func main(){
 		for sig := range sigChannel {
 			fmt.Println()
 			fmt.Println(sig)
-			mainSIP.wSIPstop()
-			mainHTTP.wHTTPstop()
+			mainSIP.Stop()
+			mainHTTP.Stop()
 			termChannel <- true
 		}
 	}()
