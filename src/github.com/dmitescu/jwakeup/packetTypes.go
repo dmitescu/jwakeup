@@ -7,9 +7,12 @@
    Zamfir Andrei Vlad <v.zamfir@jacobs-university.de>
 */
 
+package main
+
 /*
    Main SIP packet structure
 */
+
 type SIPpacket struct {
 	Type           string
 	branch         string
