@@ -131,8 +131,6 @@ func (wS *wakeupSIP) wSIPstart(port string, dest string,
 	nuc chan wUser, ncc chan wCall, nmessC chan string) {
 	fmt.Println("Starting SIP server...")
 
-	wS.callOut.init(port, dest)
-	
 	cMess := ""
 	
 	wS.messC = nmessC
@@ -176,6 +174,4 @@ type wakeupSIP struct {
 	
 	loggedList []wUser
 	callList []wCall
-
-	callOut UDPOutput
 }
