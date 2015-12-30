@@ -9,3 +9,4 @@ jwakeup
 #Ignore extra package
 
 src/github.com/mattn
+pkg
