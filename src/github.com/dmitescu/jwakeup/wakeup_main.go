@@ -28,10 +28,8 @@ func main(){
 	callC := make(chan wCall)
 	messC := make(chan string)
 
-	err := mainDBase.Init(nil, "test.db")
-	fmt.Println(err)
-	err = mainDBase.Test()
-	fmt.Println(err)
+	mainDBase.Init(nil, "test.db")
+	_ = mainDBase.cleanup("-1 day")
 	mainDBase.Close()
 	
 	//Starting of the two main servers

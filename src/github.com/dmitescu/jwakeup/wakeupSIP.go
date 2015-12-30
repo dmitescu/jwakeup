@@ -20,8 +20,8 @@ import (
 
 func (wS *wakeupSIP) addCALL(nCall wCall){
 	wS.callList = append(wS.callList, nCall)
-	fmt.Println("Added call to", nCall.Phonenr,
-		"at", nCall.Calltime)
+	//fmt.Println("Added call to", nCall.Phonenr,
+	//	"at", nCall.Calltime)
 	
 	//var listout wCallList
 	//listout.WCallList = wS.callList
