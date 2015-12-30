@@ -156,7 +156,7 @@ func (wS *wakeupSIP) Start(port string, dest string,
 		}
 	}
 
-	wS.wSIPstop()
+	wS.Stop()
 }
 
 func (wS *wakeupSIP) Stop() {

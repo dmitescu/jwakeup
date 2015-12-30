@@ -1,3 +1,11 @@
 #Ignore the compiled file
 
 jwakeup
+
+#Ignore database
+
+*.db
+
+#Ignore extra package
+
+src/github.com/mattn

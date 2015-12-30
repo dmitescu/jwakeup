@@ -1,5 +1,8 @@
-comp:
-	env GOPATH=$(PWD) go build github.com/dmitescu/jwakeup
+comp:	
+	CGO_ENABLED=1 GOPATH=$(PWD) go build -gccgoflags "-pthread" github.com/dmitescu/jwakeup
+
+dependencies:
+	GOPATH=$(PWD) go get -d github.com/mattn/go-sqlite3
 
 clean:
 	rm -r *~
