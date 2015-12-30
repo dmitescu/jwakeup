@@ -22,11 +22,18 @@ func main(){
 	
 	var mainHTTP wakeupHTTP
 	var mainSIP wakeupSIP
-
+	var mainDBase dbCall
+	
 	userC := make(chan wUser)
 	callC := make(chan wCall)
 	messC := make(chan string)
 
+	err := mainDBase.Init(nil, "test.db")
+	fmt.Println(err)
+	err = mainDBase.Test()
+	fmt.Println(err)
+	mainDBase.Close()
+	
 	//Starting of the two main servers
 	go mainHTTP.Start(":8080", userC, callC, messC)
 	time.Sleep(time.Second * 2)
@@ -45,7 +52,7 @@ func main(){
 			termChannel <- true
 		}
 	}()
-
+	
 	<-termChannel
 	fmt.Println("Terminating server...")
 }
